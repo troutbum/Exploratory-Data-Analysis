@@ -1,0 +1,5 @@
+.RData
+data
+/data/*
+data/*
+.Rhistory
