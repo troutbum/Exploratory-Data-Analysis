@@ -16,9 +16,9 @@ fileName2 <- "Source_Classification_Code.rds"
 fileUrl <- "https://d396qusza40orc.cloudfront.net/exdata%2Fdata%2FNEI_data.zip"
 
 ZipFile <- paste0(filePath, fileZipName)        # path to zipped data file
-xFile1 <- paste0(filePath, fileName1)             # path to unzipped data file
+## xFile <- paste0(filePath, fileName1)             # path to unzipped data file
 
-if (!file.exists(xFile)) {
+if (!file.exists(ZipFile)) {
         download.file(fileUrl, destfile = ZipFile, method ="curl")
         unzip(ZipFile, exdir=filePath)
         dateDownloaded <- date()
