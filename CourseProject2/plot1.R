@@ -16,14 +16,14 @@ fileName2 <- "Source_Classification_Code.rds"
 fileUrl <- "https://d396qusza40orc.cloudfront.net/exdata%2Fdata%2FNEI_data.zip"
 
 ZipFile <- paste0(filePath, fileZipName)        # path to zipped data file
-## xFile <- paste0(filePath, fileName1)             # path to unzipped data file
-
 if (!file.exists(ZipFile)) {
         download.file(fileUrl, destfile = ZipFile, method ="curl")
         unzip(ZipFile, exdir=filePath)
         dateDownloaded <- date()
 }
 
+NEI <- readRDS(paste0(filePath, fileName1))     # PM2.5 Emissions Data
+SCC <- readRDS(paste0(filePath, fileName2))     # Source Classification Code Table 
 
 
 
