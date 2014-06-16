@@ -50,5 +50,5 @@ library(ggplot2)
 png("plot3.png", width = 480, height = 480)
 # qplot(year, Emissions, data=Baltimore, geom="bar", stat='identity')           # ggplot2 version of Question 2
 qplot(year, Emissions, data=Baltimore, geom="bar", stat='identity', facets=type~., 
-      main="Total PM2.5 Emissions in Baltimore MD", ylab="PM2.5 Emissions in tons")
+      main="Total PM2.5 Emissions in Baltimore City, MD", ylab="PM2.5 Emissions in tons")
 dev.off()

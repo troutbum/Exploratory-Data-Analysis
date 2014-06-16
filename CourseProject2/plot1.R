@@ -45,5 +45,5 @@ total_pollution = tapply(NEI$Emissions, NEI$year, sum)
 # plot to PNG file
 library(datasets)
 png("plot1.png", width = 480, height = 480)
-barplot(total_pollution, main ="Total PM2.5 Emission", ylab = "PM2.5 in tons", col="red")
+barplot(total_pollution, main ="Total United States PM2.5 Emissions", ylab = "PM2.5 in tons", col="red")
 dev.off()

@@ -43,5 +43,5 @@ total_pollution = tapply(Baltimore$Emissions, Baltimore$year, sum)
 # plot to PNG file
 library(datasets)
 png("plot2.png", width = 480, height = 480)
-barplot(total_pollution, main ="Total PM2.5 Emission in Baltimore MD", ylab = "PM2.5 in tons", col="blue")
+barplot(total_pollution, main ="Total PM2.5 Emission in Baltimore City, MD", ylab = "PM2.5 in tons", col="blue")
 dev.off()
