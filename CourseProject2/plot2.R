@@ -1,14 +1,13 @@
 # Exploratory Data Analysis
 # June 2014
 # Course Project 2
-# Plot 1
+# Plot 2
 
-# Question 1:
+# Question 2:
 # 
-# Have total emissions from PM2.5 decreased in the United States from 1999 to
-# 2008? Using the base plotting system, make a plot showing the total PM2.5
-# emission from all sources for each of the years 1999, 2002, 2005, and 2008.
-
+# Have total emissions from PM2.5 decreased in the Baltimore City, Maryland
+# (fips == 24510) from 1999 to 2008? Use the base plotting system to make a plot
+# answering this question.
 
 # create a data subdirectory if it does not exist
 if (!file.exists("data")) {
@@ -30,20 +29,19 @@ if (!file.exists(ZipFile)) {
 }
 
 # PM2.5 Emissions Data
-NEI <- readRDS(paste0(filePath, fileName1))     
-# Source Classification Code Table:
-#       This table provides a mapping from the SCC digit strings in the Emissions
-#       table to the actual name of the PM2.5 source.
-SCC <- readRDS(file=paste0(filePath, fileName2))
+NEI <- readRDS(paste0(filePath, fileName1))   
+
+# subset Baltimore data
+Baltimore <- subset(NEI, fips == "24510")
 
 # Convert year column to a factor
-NEI$year <- factor(NEI$year)
+Baltimore$year <- factor(Baltimore$year)
 
 # Sum total pollution by this year factor
-total_pollution = tapply(NEI$Emissions, NEI$year, sum)
+total_pollution = tapply(Baltimore$Emissions, Baltimore$year, sum)
 
 # plot to PNG file
 library(datasets)
-png("plot1.png", width = 480, height = 480)
-barplot(total_pollution, main ="Total PM2.5 Emission", ylab = "PM2.5 in tons", col="red")
+png("plot2.png", width = 480, height = 480)
+barplot(total_pollution, main ="Total PM2.5 Emission in Baltimore MD", ylab = "PM2.5 in tons", col="blue")
 dev.off()
