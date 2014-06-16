@@ -22,29 +22,21 @@ if (!file.exists(ZipFile)) {
         dateDownloaded <- date()
 }
 
-NEI <- readRDS(paste0(filePath, fileName1))     # PM2.5 Emissions Data
-SCC <- readRDS(paste0(filePath, fileName2))     # Source Classification Code Table 
+# PM2.5 Emissions Data
+NEI <- readRDS(paste0(filePath, fileName1))     
+# Source Classification Code Table:
+#       This table provides a mapping from the SCC digit strings in the Emissions
+#       table to the actual name of the PM2.5 source.
+SCC <- readRDS(file=paste0(filePath, fileName2))
 
+# Convert year column to a factor
+NEI$year <- factor(NEI$year)
 
-
-
-
-
-
-# sample data file to determine classes
-sampleData <- read.csv(xFile, stringsAsFactors=FALSE,sep=";",na.strings="?", nrows = 5)
-classes <- sapply(sampleData, class)
-classes
-
-# read all data and convert Date column from char
-all_data <- read.csv(xFile, stringsAsFactors=FALSE,sep=";",na.strings="?", colClasses = classes)
-
-# subset data
-data <- subset(all_data, Date == "1/2/2007" | Date == "2/2/2007")
+# Sum total pollution by this year factor
+total_pollution = tapply(NEI$Emissions, NEI$year, sum)
 
 # plot to PNG file
 library(datasets)
 png("plot1.png", width = 480, height = 480)
-hist(data$Global_active_power, xlab = "Global Active Power (kilowatts)", 
-     col="red", bg="white", main = "Global Active Power")
+barplot(total_pollution, main ="Total PM2.5 Emission", ylab = "PM2.5 in tons", col="red")
 dev.off()
