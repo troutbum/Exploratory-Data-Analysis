@@ -41,14 +41,15 @@ Baltimore <- subset(NEI, fips == "24510")
 Baltimore$year <- factor(Baltimore$year)
 Baltimore$type <- factor(Baltimore$type)
 
-# Sum total pollution by this year factor
-total_pollution = tapply(Baltimore$Emissions, Baltimore$year, sum)
-
 # plot to PNG file
 library(datasets)
 library(ggplot2)
 png("plot3.png", width = 480, height = 480)
-# qplot(year, Emissions, data=Baltimore, geom="bar", stat='identity')           # ggplot2 version of Question 2
+
+# Sum emissions using stat identity and create facets for each pollution source
+#
 qplot(year, Emissions, data=Baltimore, geom="bar", stat='identity', facets=type~., 
       main="Total PM2.5 Emissions in Baltimore City, MD", ylab="PM2.5 Emissions in tons")
 dev.off()
+
+# qplot(year, Emissions, data=Baltimore, geom="bar", stat='identity')           # ggplot2 version of Question 2
