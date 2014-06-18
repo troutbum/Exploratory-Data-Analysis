@@ -41,49 +41,46 @@ B$year <- factor(B$year)                                # Convert year column to
 # plot results
 library(datasets)
 library(ggplot2)
-# library(RColorBrewer)
-# cols <- brewer.pal(12, "Paired")
 
-
+# plot to PNG file
+png("plot5.png", width = 960, height = 480)
 g <- ggplot(B, aes(SCC.Level.Three, Emissions, fill=SCC.Level.Three))
 g <- g + geom_bar(stat="identity") + facet_grid(. ~ year) 
 g <- g + scale_x_discrete(breaks=NULL)                                       # suppress x-axis label
-g + xlab("") + ylab("Motor Vehicle PM2.5 Emissions in tons")
-
-
-
-# 4 vertical facets by year, each column represents a vehicle type
-# (don't see all emissions effect)
-qplot(SCC.Level.Three, Emissions, data=B, geom="bar", stat='identity', 
-      facets=year~., fill=SCC.Level.Three, asp=0.5,
-      xlab="", ylab="Emissions in tons", main="Baltimore City, MD Vehicle Emissions")
-
-# 2x2 facet grid
-# (can't compare years as readily)
-qplot(SCC.Level.Three, Emissions, data=B, geom="bar", stat='identity', 
-      facets=~year, fill=SCC.Level.Three, asp=0.5)
-
-# stacked column by emission by year
-qplot(year, Emissions, data=B, geom="bar", stat='identity', fill=SCC.Level.Three)
-
-
-# just 2008 data
-data2008 <- subset(B, year == "2008") 
-data2008$SCC.Level.Three <- as.character(data2008$SCC.Level.Three) 
-data2008$SCC.Level.Three <- factor(data2008$SCC.Level.Three) 
-qplot(year, Emissions, data=data2008, geom="bar", stat='identity', fill=SCC.Level.Three)
-qplot(SCC.Level.Three, Emissions, data=data2008, geom="bar", stat='identity', 
-      facets=year~., fill=SCC.Level.Three, asp=.3)
-
-
-# 12 facets by vehicle type, each with 4 columns representing a year
-qplot(year, Emissions, data=B, geom="bar", stat='identity', facets=.~SCC.Level.Three, fill=year)
-qplot(year, Emissions, data=B, geom="bar", stat='identity', facets=SCC.Level.Three~., fill=year)
-
-# 4 year columns and color dots of vehicle type
-qplot(year, Emissions, data=B, fill="SCC.Level.Three", color=SCC.Level.Three, size = 20)
-
-# plot to PNG file
-png("plot5.png", width = 480, height = 480)
-barplot(total_pollution, main ="Total PM2.5 Emission in Baltimore City, MD", ylab = "PM2.5 in tons", col="blue")
+g <- g + xlab("") + ylab("PM2.5 Emissions (in tons)")
+g + ggtitle("Baltimore City, Maryland | Motor Vehicle PM2.5 Emissions") + labs(fill = "Vehicle Type")
 dev.off()
+
+
+# # 4 vertical facets by year, each column represents a vehicle type
+# # (don't see all emissions effect)
+# qplot(SCC.Level.Three, Emissions, data=B, geom="bar", stat='identity', 
+#       facets=year~., fill=SCC.Level.Three, asp=0.5,
+#       xlab="", ylab="Emissions in tons", main="Baltimore City, MD Vehicle Emissions")
+# 
+# # 2x2 facet grid
+# # (can't compare years as readily)
+# qplot(SCC.Level.Three, Emissions, data=B, geom="bar", stat='identity', 
+#       facets=~year, fill=SCC.Level.Three, asp=0.5)
+# 
+# # stacked column by emission by year
+# qplot(year, Emissions, data=B, geom="bar", stat='identity', fill=SCC.Level.Three)
+# 
+# 
+# # just 2008 data
+# data2008 <- subset(B, year == "2008") 
+# data2008$SCC.Level.Three <- as.character(data2008$SCC.Level.Three) 
+# data2008$SCC.Level.Three <- factor(data2008$SCC.Level.Three) 
+# qplot(year, Emissions, data=data2008, geom="bar", stat='identity', fill=SCC.Level.Three)
+# qplot(SCC.Level.Three, Emissions, data=data2008, geom="bar", stat='identity', 
+#       facets=year~., fill=SCC.Level.Three, asp=.3)
+# 
+# # 12 facets by vehicle type, each with 4 columns representing a year
+# qplot(year, Emissions, data=B, geom="bar", stat='identity', facets=.~SCC.Level.Three, fill=year)
+# qplot(year, Emissions, data=B, geom="bar", stat='identity', facets=SCC.Level.Three~., fill=year)
+# 
+# # 4 year columns and color dots of vehicle type
+# qplot(year, Emissions, data=B, fill="SCC.Level.Three", color=SCC.Level.Three, size = 20)
+# 
+# # library(RColorBrewer)
+# # cols <- brewer.pal(12, "Paired")
