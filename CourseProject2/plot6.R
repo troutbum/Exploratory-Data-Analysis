@@ -94,17 +94,37 @@ multiplot <- function(..., plotlist=NULL, file, cols=1, layout=NULL) {
 library(datasets)
 library(ggplot2)
 png("plot6.png", width = 960, height = 960)
-gB <- ggplot(B, aes(SCC.Level.Three, Emissions, fill=SCC.Level.Three))          # Baltimore 
-gB <- gB + geom_bar(stat="identity") + facet_grid(. ~ year) 
-gB <- gB + scale_x_discrete(breaks=NULL)                                        # suppress x-axis label
-gB <- gB + xlab("") + ylab("PM2.5 Emissions (in tons)")
-gB <- gB + ggtitle("Baltimore City, Maryland | Motor Vehicle PM2.5 Emissions") 
-gB <- gB + labs(fill = "Vehicle Type")
-gLA <- ggplot(LA, aes(SCC.Level.Three, Emissions, fill=SCC.Level.Three))        # LA
-gLA <- gLA + geom_bar(stat="identity") + facet_grid(. ~ year) 
-gLA <- gLA + scale_x_discrete(breaks=NULL)                                      # suppress x-axis label
-gLA <- gLA + xlab("") + ylab("PM2.5 Emissions (in tons)")
-gLA <- gLA + ggtitle("Los Angeles County, California | Motor Vehicle PM2.5 Emissions") 
-gLA <- gLA + labs(fill = "Vehicle Type")
+
+gB <- ggplot(B, aes(SCC.Level.Three, Emissions, fill=SCC.Level.Three)) +
+        geom_bar(stat="identity") + 
+        facet_grid(. ~ year) +
+        scale_x_discrete(breaks=NULL) +                              # suppress x-axis label
+        labs(x="---total emission levels indicated by dashed lines---") +
+        theme(axis.title.x = element_text(colour = "#990000"),
+              axis.title.y = element_text(colour = "black")) +
+        labs(y="PM2.5 Emissions (in tons)") +
+        labs(title="Baltimore City, Maryland | Motor Vehicle PM2.5 Emissions") + 
+        labs(fill = "Vehicle Type")
+
+gLA <- ggplot(LA, aes(SCC.Level.Three, Emissions, fill=SCC.Level.Three)) +
+        geom_bar(stat="identity") + 
+        facet_grid(. ~ year) +
+        scale_x_discrete(breaks=NULL) +                              # suppress x-axis label
+        labs(x="---total emission levels indicated by dashed lines---") +
+        theme(axis.title.x = element_text(colour = "#990000"),
+              axis.title.y = element_text(colour = "black")) +
+        labs(y="PM2.5 Emissions (in tons)") +
+        labs(title="Los Angeles County, California | Motor Vehicle PM2.5 Emissions") + 
+        labs(fill = "Vehicle Type")
+
+# add horizontal line for sum of emissions for each facet
+B_total = tapply(B$Emissions, B$year, sum)
+B_hline.data <- data.frame(z = B_total, year = names(B_total))
+gB <- gB + geom_hline(aes(yintercept = z), B_hline.data, colour="#990000", linetype="dashed")
+
+LA_total = tapply(LA$Emissions, LA$year, sum)
+LA_hline.data <- data.frame(z = LA_total, year = names(LA_total))
+gLA <- gLA + geom_hline(aes(yintercept = z), LA_hline.data, colour="#990000", linetype="dashed")
+
 multiplot(gB, gLA, cols=1)
 dev.off()

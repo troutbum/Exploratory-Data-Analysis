@@ -41,6 +41,7 @@ B$year <- factor(B$year)                                # Convert year column to
 # plot results
 library(datasets)
 library(ggplot2)
+library(RColorBrewer)
 png("plot5.png", width = 960, height = 480)
 g <- ggplot(B, aes(SCC.Level.Three, Emissions, fill=SCC.Level.Three)) +
         geom_bar(stat="identity") + 
@@ -51,7 +52,8 @@ g <- ggplot(B, aes(SCC.Level.Three, Emissions, fill=SCC.Level.Three)) +
               axis.title.y = element_text(colour = "black")) +
         labs(y="PM2.5 Emissions (in tons)") +
         labs(title="Baltimore City, Maryland | Motor Vehicle PM2.5 Emissions") + 
-        labs(fill = "Vehicle Type")
+        labs(fill = "Vehicle Type") +
+        scale_fill_brewer(palette="Paired")
  
 # add horizontal line for sum of emissions for each facet
 B_total = tapply(B$Emissions, B$year, sum)
