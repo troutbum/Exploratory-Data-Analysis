@@ -41,14 +41,22 @@ B$year <- factor(B$year)                                # Convert year column to
 # plot results
 library(datasets)
 library(ggplot2)
-
-# plot to PNG file
 png("plot5.png", width = 960, height = 480)
-g <- ggplot(B, aes(SCC.Level.Three, Emissions, fill=SCC.Level.Three))
-g <- g + geom_bar(stat="identity") + facet_grid(. ~ year) 
-g <- g + scale_x_discrete(breaks=NULL)                                       # suppress x-axis label
-g <- g + xlab("") + ylab("PM2.5 Emissions (in tons)")
-g + ggtitle("Baltimore City, Maryland | Motor Vehicle PM2.5 Emissions") + labs(fill = "Vehicle Type")
+g <- ggplot(B, aes(SCC.Level.Three, Emissions, fill=SCC.Level.Three)) +
+        geom_bar(stat="identity") + 
+        facet_grid(. ~ year) +
+        scale_x_discrete(breaks=NULL) +                              # suppress x-axis label
+        labs(x="---total emission levels indicated by dashed lines---") +
+        theme(axis.title.x = element_text(colour = "#990000"),
+              axis.title.y = element_text(colour = "black")) +
+        labs(y="PM2.5 Emissions (in tons)") +
+        labs(title="Baltimore City, Maryland | Motor Vehicle PM2.5 Emissions") + 
+        labs(fill = "Vehicle Type")
+ 
+# add horizontal line for sum of emissions for each facet
+B_total = tapply(B$Emissions, B$year, sum)
+hline.data <- data.frame(z = B_total, year = names(B_total))
+g + geom_hline(aes(yintercept = z), hline.data, colour="#990000", linetype="dashed")
 dev.off()
 
 
